@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS Testing_System_Assignment_2;
-CREATE DATABASE IF NOT EXISTS Testing_System_Assignment_2;
-USE Testing_System_Assignment_2;
+DROP DATABASE IF EXISTS Testing_System_Assignment_4;
+CREATE DATABASE IF NOT EXISTS Testing_System_Assignment_4;
+USE Testing_System_Assignment_4;
 
 DROP TABLE IF EXISTS Department;
 CREATE TABLE Department (
@@ -223,6 +223,54 @@ VALUES
     (1, 5),
     (1, 1),
     (2, 2);
+
+select * from accounts
+JOIN department 
+ON accounts.DepartmentID = department.DepartmentID
+UNION
+SELECT * FROM accounts a
+JOIN department d
+ON a.DepartmentID = d.DepartmentID
+WHERE CreateDate > '2010/12/20';
+
+
+SELECT * FROM accounts a
+JOIN department d
+ON a.DepartmentID = d.DepartmentID
+WHERE d.DepartmentName = N'Developer';
+
+
+SELECT d.DepartmentName, COUNT(a.AccountID) as NumberOfOders
+FROM Department d
+JOIN Accounts a ON d.DepartmentID = a.DepartmentID
+GROUP BY d.DepartmentName
+HAVING COUNT(a.AccountID) >= 1;
+
+SELECT q.QuestionID, Content, CategoryID, TypeID, CreatorID, CreateDate, COUNT(ExamID) AS NUM_USED
+FROM Question q
+JOIN ExamQuestion eq ON q.QuestionID = eq.QuestionID
+GROUP BY q.QuestionID
+HAVING NUM_USED = (SELECT MAX(NUM_USED) 
+				   FROM (SELECT COUNT(ExamID) AS NUM_USED
+						 FROM Question q
+                         JOIN ExamQuestion eq ON q.QuestionID = eq.QuestionID
+                         GROUP BY q.QuestionID) AS Table_q5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
